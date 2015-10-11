@@ -8,7 +8,7 @@ local math = math
 --                               ugap = 21 tb = -3
 --                               ugap = 10 tb = 2
 
-module("daze.layout.termbot")
+module("daze.layout.term_bot")
 
 name = "tile"
 function arrange(z)

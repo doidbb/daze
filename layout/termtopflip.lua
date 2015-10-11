@@ -4,7 +4,7 @@ local beautiful = require("beautiful")
 local awful = require("awful")
 local math = math
 
-module("daze.layout.fixed_alt")
+module("daze.layout.term_top_flip")
 
 name = "fixed_alt"
 function arrange(z)
