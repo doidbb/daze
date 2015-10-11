@@ -4,7 +4,7 @@ local beautiful = require("beautiful")
 local awful = require("awful")
 local math = math
 
-module("daze.layout.fixed")
+module("daze.layout.termtop")
 
 name = "fixed"
 function arrange(z)
