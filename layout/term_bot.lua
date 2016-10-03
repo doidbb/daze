@@ -11,33 +11,42 @@ local math = math
 module("daze.layout.term_bot")
 
 name = "tile"
-function arrange(z)
+
+-- z is the display that the clients are being manipulated on
+function validate()
    
-    local ugap = tonumber(beautiful.useless_gap_width)
+    ugap = tonumber(beautiful.useless_gap_width)
     if ugap == nil then
         ugap = 0
     end
     
-    local lower_window_height = tonumber(beautiful.lower_window_height)
+    lower_window_height = tonumber(beautiful.lower_window_height)
     if lower_window_height == nil then
         lower_window_height = 0
     end
 
-    local vertical_resolution = tonumber(beautiful.vertical_resolution)
+    vertical_resolution = tonumber(beautiful.vertical_resolution)
     if vertical_resolution == nil then
         vertical_resolution = 1080 --assumes vertical resolution is 1080
     end
 
-    local tb_border = tonumber(beautiful.vertical_border)
+    tb_border = tonumber(beautiful.vertical_border)
     if tb_border == nil then
         tb_border = 0
     end
 
-    local cp = tonumber(beautiful.outer_padding)
+    cp = tonumber(beautiful.outer_padding)
     if cp == nil then
         cp = 0
     end
 
+end
+
+
+function arrange(z)
+
+    validate()
+    
     -- screen area
     local wa = z.workarea
     local cls = z.clients
@@ -50,10 +59,13 @@ function arrange(z)
     local overlap_main = awful.tag.getncol(t)
     
     -- main column
+    -- where #cls is the length of the list of clients (windows)
+    -- #cls is short for cls.length()
     if #cls > 0 then
         local c = cls[#cls]
         local g = {}
-        
+        -- shrink workarea by padding defined in theme.lua
+        -- cp * 2 puts the right amount of padding on either side
         wa.height = wa.height - cp*2
         wa.width = wa.width - cp*2
         wa.x = wa.x + cp
@@ -79,17 +91,23 @@ function arrange(z)
         else
             g.width = mwidth - ugap
         end
+
+        -- c:geometry(list) takes a list of 4 args: x, y, width, height and sets those parameters.
+        -- in this portion of arrange(), we are setting the dimensions of the window on the left hand side.
         c:geometry(g)
        
         local lwh = lower_window_height
 
         -- slave client stacking
+        -- now that we've solved the window on the left hand side, we check to see if there's more than one window. We arrange these
         if #cls > 1 then
             local sheight = math.floor(wa.height / (#cls -1))
+            -- if there's no htop terminal, we set the windows equal height
             if lwh == 0 then
                 for i = (#cls - 1),1,-1 do
                     c = cls[i]
                     g = {}
+                    -- we set the width of the right hand side windows to the same as that of the left
                     g.width = swidth
                     if i == (#cls - 1) then
                         g.height = wa.height - (#cls - 2) * sheight
