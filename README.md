@@ -1,7 +1,7 @@
 Daze
 ====
 
-A module for awesome that handles cleaner tiling.
+A module for awesome that handles cleaner tiling and a main focus window.
 
 Installation
 =============
