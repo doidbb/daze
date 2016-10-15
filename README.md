@@ -1,43 +1,43 @@
-daze
+Daze
 ====
 
-a module for awesome that handles custom tiling and tooltip widgets
+A module for awesome that handles cleaner tiling.
 
-instructions
+Installation
 =============
 
-clone the repo
+Clone the repo
 
-    git clone git://github.com/doidbb/daze
+    git clone git://github.com/hjfitz/daze ~/.config/awesome/daze
 
-additions to rc.lua
+Additions to rc.lua
 ===================
-require the module (at the top of rc.lua)
 
-    require("daze") 
+Edit ~/.config/awesome/rc.lua and ensure that it pulls daze in
 
-put this after your tags
-    
-    --set the layout
-    awful.layout.set(daze.layout.tile, tags[1][1]) 
-    --set master window width in percentage
-    awful.tag.setmwfact(0.7, tags[1][1])
-    --set number of column windows
-    awful.tag.setncol(1, tags[1][1])
+    local daze = require("daze") 
 
-where x and y tags[x][y] are the workspace and screen you want the layout to work on, respectively
+Ensure that it's set up under the layouts:
 
-additions to theme.lua
-======================
-    --set the spacing between tiled windows to 20px
+    local layouts =
+    {
+        daze.layout.term_bot,
+        daze.layout.term_top,
+        daze.layout.term_top_flip,
+        ...
+    }
+
+Ensure that theme.lua is set up correctly
+=========================================
+    Edit ~/.config/awesome/$SETTHEME/theme.lua and add the following lines
+
     theme.useless_gap_width = "20"
-    --set the height of the lowest window of the second column to 72; setting to zero makes all the slave windows the same height
-    theme.lower_window_height = "72"
-    --set your vertical resolution
+    theme.lower_window_height = "72" --set to 0 if you require the terminal windows to be the same size.
     theme.vertical_resolution = "1080"
-    --set the extra vertical spacing to 8px
     theme.vertical_border = "8"
-    --set the extra outermost spacing to 18px
     theme.outer_padding = "18"
 
+Screenshot
+==========
 
+![Daze in action](screenshot.png)
